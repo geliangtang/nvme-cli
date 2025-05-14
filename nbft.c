@@ -140,7 +140,12 @@ static int do_connect(nvme_root_t r,
 
 	if (e) {
 		if (e->trtype == NVMF_TRTYPE_TCP &&
-		    e->tsas.tcp.sectype != NVMF_TCP_SECTYPE_NONE)
+		    e->tsas.tcp.sectype != NVMF_TCP_SECTYPE_NONE &&
+		    e->tsas.tcp.sectype != NVMF_TCP_TSAS_MPTCP)
+			cfg->tls = true;
+
+		if (e->trtype == NVMF_TRTYPE_TCP &&
+		    e->tsas.tcp.sectype == NVMF_TCP_TSAS_MPTCP)
 			cfg->tls = true;
 	}
 
